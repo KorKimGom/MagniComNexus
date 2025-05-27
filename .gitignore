@@ -1,0 +1,27 @@
+# 빌드 폴더 및 하위 파일 제외
+build/
+*.o
+*.obj
+*.so
+*.dll
+*.exe
+*.a
+*.lib
+
+# Qt 관련 빌드 파일 제외
+moc_*
+ui_*
+qrc_*
+
+# CMake 및 qmake 빌드 파일 제외
+CMakeFiles/
+CMakeCache.txt
+Makefile
+*.pro.user
+*.pro.user.*
+*.qmake.stash
+
+# 제외하지 않는 파일 (소스, 헤더, UI 파일)
+!*.cpp
+!*.h
+!*.ui
