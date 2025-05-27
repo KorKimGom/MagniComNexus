@@ -23,8 +23,153 @@
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuProtocols">
+    <property name="title">
+     <string>Protocols</string>
+    </property>
+    <widget class="QMenu" name="menuNetwork">
+     <property name="title">
+      <string>Network</string>
+     </property>
+     <widget class="QMenu" name="menuServer">
+      <property name="title">
+       <string>Server</string>
+      </property>
+      <addaction name="aServerTcpIp"/>
+      <addaction name="aServerUdp"/>
+     </widget>
+     <widget class="QMenu" name="menuClient">
+      <property name="title">
+       <string>Client</string>
+      </property>
+      <addaction name="aClientTcpIp"/>
+      <addaction name="aClientUdp"/>
+     </widget>
+     <addaction name="menuServer"/>
+     <addaction name="menuClient"/>
+    </widget>
+    <widget class="QMenu" name="menuHardware">
+     <property name="title">
+      <string>Hardware</string>
+     </property>
+     <addaction name="aSerial"/>
+     <addaction name="aParallel"/>
+     <addaction name="aCAN"/>
+     <addaction name="aI2C"/>
+     <addaction name="aSPI"/>
+     <addaction name="aModbus"/>
+    </widget>
+    <widget class="QMenu" name="menuWireless">
+     <property name="title">
+      <string>Wireless</string>
+     </property>
+     <addaction name="aWiFi"/>
+     <addaction name="aBluetooth"/>
+     <addaction name="aLoRa"/>
+     <addaction name="aRFID"/>
+     <addaction name="aZigbee"/>
+     <addaction name="aNFC"/>
+     <addaction name="a5G_Lte"/>
+    </widget>
+    <addaction name="menuNetwork"/>
+    <addaction name="menuHardware"/>
+    <addaction name="menuWireless"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <addaction name="menuProtocols"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="aServerTcpIp">
+   <property name="text">
+    <string>TCP/IP</string>
+   </property>
+  </action>
+  <action name="aServerUdp">
+   <property name="text">
+    <string>UDP</string>
+   </property>
+  </action>
+  <action name="aClientTcpIp">
+   <property name="text">
+    <string>TCP/IP</string>
+   </property>
+  </action>
+  <action name="aClientUdp">
+   <property name="text">
+    <string>UDP</string>
+   </property>
+  </action>
+  <action name="aSerial">
+   <property name="text">
+    <string>Serial Communication</string>
+   </property>
+  </action>
+  <action name="aParallel">
+   <property name="text">
+    <string>Parallel Communication</string>
+   </property>
+  </action>
+  <action name="aCAN">
+   <property name="text">
+    <string>Controller Area Network</string>
+   </property>
+  </action>
+  <action name="aI2C">
+   <property name="text">
+    <string>Inter-Integrated Circuit</string>
+   </property>
+  </action>
+  <action name="aSPI">
+   <property name="text">
+    <string>Serial Peripheral Interface</string>
+   </property>
+  </action>
+  <action name="aModbus">
+   <property name="text">
+    <string>Modbus</string>
+   </property>
+  </action>
+  <action name="aWiFi">
+   <property name="text">
+    <string>Wi-Fi</string>
+   </property>
+  </action>
+  <action name="aBluetooth">
+   <property name="text">
+    <string>Bluetooth</string>
+   </property>
+  </action>
+  <action name="aLoRa">
+   <property name="text">
+    <string>LoRa</string>
+   </property>
+  </action>
+  <action name="aRFID">
+   <property name="text">
+    <string>RFID</string>
+   </property>
+  </action>
+  <action name="aZigbee">
+   <property name="text">
+    <string>Zigbee</string>
+   </property>
+  </action>
+  <action name="aNFC">
+   <property name="text">
+    <string>Near Field Communication</string>
+   </property>
+  </action>
+  <action name="a5G_Lte">
+   <property name="text">
+    <string>5G / LTE</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

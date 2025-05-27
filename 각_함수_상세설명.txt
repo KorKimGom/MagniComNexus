@@ -1,0 +1,82 @@
+void MainWindow::setupMenu()
+{
+    protocolsMenu = this->menuBar()->findChild<QMenu*>("menuProtocols");
+    if (!protocolsMenu) return;
+
+    menuNetwork = protocolsMenu->findChild<QMenu*>("menuNetwork");
+    actionExit = protocolsMenu->findChild<QAction*>("actionExit");
+
+    if (!actionExit)
+    {
+        actionExit = new QAction("Exit", this);
+        actionExit->setObjectName("actionExit");
+        protocolsMenu->addAction(actionExit);
+    }
+
+    bool foundNetwork = false;
+    QList<QAction*> removeActions;
+
+    const QList<QAction*> actionsList = protocolsMenu->actions();       // `qAsConst()` 대신 `const auto&` 사용하여 오류 방지
+
+    for (const auto& act : actionsList)
+    {
+        if (act == menuNetwork->menuAction())
+        {
+            foundNetwork = true;
+            continue;
+        }
+        else if (act == actionExit) break;
+        else if (foundNetwork) removeActions.append(act);
+    }
+
+    for (const auto& act : removeActions)
+        protocolsMenu->removeAction(act);
+
+    if (menuNetwork)
+        menuNetwork->addAction(actionExit);
+}
+
+[`qAsConst()` 대신 `const auto&` 사용하여 오류 방지]
+
+✅ qAsConst() 대신 const auto&를 사용해야 하는 이유
+	"qAsConst()"는 Qt 5.7 이상에서 제공되는 함수로, 
+		읽기 전용(const) 컨테이너를 생성하여 불필요한 복사를 방지하는 역할을 한다. 
+		하지만 특정 Qt 컨테이너에 대해 사용하면 삭제된 함수 호출 문제 또는 컴파일 오류가 발생할 수 있다.
+
+
+	🔹 qAsConst() 사용 시 발생하는 문제
+		01 삭제된 함수 호출 오류 (Call to deleted function 'qAsConst')
+	
+			최신 Qt 버전에서는 일부 컨테이너(QList<QAction*>)의 경우 qAsConst() 지원이 제거되었을 수 있다.
+			예를 들어 protocolsMenu->actions()은 내부적으로 void를 반환하는 경우가 있어 qAsConst()를 적용할 수 없다.
+			즉, protocolsMenu->actions()을 변수에 저장하지 않고 직접 qAsConst()로 감싸면 오류가 발생할 수 있다.
+	
+		02 컴파일 오류 (Cannot use type 'void' as a range)
+			일부 Qt 함수는 void 타입을 반환하기 때문에 범위 기반 for 루프(for(auto x : qAsConst(...)))에서 사용할 수 없다.
+			따라서 먼저 컨테이너를 변수에 저장한 후 qAsConst() 적용해야 하지만, C++17에서는 const auto&가 더 적합합니다.
+	
+	
+	🔹 const auto&로 해결하는 방법
+		대신 qAsConst()를 사용하지 않고 컨테이너를 const auto&로 참조하여 불필요한 복사를 방지하면 다음과 같은 장점이 있다.
+	
+			01 Qt 내부 최적화 → QList<QAction*>의 불필요한 복사 방지.
+			02 코드 가독성 증가 → qAsConst() 없이도 명확한 읽기 전용 처리 가능.
+			03 호환성 증가 → 최신 Qt 및 C++17 표준에서 문제 없이 동작.
+
+	[예시]
+		✅ 수정 코드 예시
+			❌ qAsConst()로 인해 오류 발생 가능:
+			for (const auto& act : qAsConst(protocolsMenu->actions()))  // ❌ 오류 발생 가능
+	
+			✔ const auto&를 사용하여 안정적인 코드:
+			const QList<QAction*> actionsList = protocolsMenu->actions();
+			for (const auto& act : actionsList)  // ✅ 문제 없이 작동
+
+
+	🔹 결론
+		✅ Qt 최신 버전에서는 qAsConst()를 사용하면 삭제된 함수 호출 오류가 발생할 수 있기 때문에, 
+			const auto&를 사용하여 안정적으로 참조하는 것이 더 안전하고 최적화된 방법이다. 
+		✅ 이 방식은 최신 C++17 표준에도 완벽히 호환되며, 성능 최적화에도 도움이 된다.
+		
+==========================================================================================================================================================================
+
